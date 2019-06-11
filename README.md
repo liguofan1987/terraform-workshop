@@ -5,10 +5,8 @@
 
 ## Installation (https://learn.hashicorp.com/terraform/getting-started/install.html)
 
-## How to run?
-
-### Customize
-#### AWS Configure
+## Customize the program
+### AWS Configure
 Set your AWS access key and secret key
 ```
 $ aws configure
@@ -18,19 +16,12 @@ Default region name [None]:
 Default output format [None]: 
 ```
 
-#### Decrypt
-```
-$ ./decrypt.sh ciscolive.pem.enc
-$ chmod 600 ciscolive.pem
-$ ./decrypt.sh variables.tf.enc 
-```
+### Set Parameters
 
-#### Set Parameters
-
-Set aws_cluster_name, AWS_DEFAULT_REGION and AWS_SSH_KEY_NAME
+Set your aws_cluster_name, AWS_DEFAULT_REGION, AWS_SSH_KEY_NAME and vm_default_user = "centos" based on OS.
 ```
 $ vi terraform.tfvars 
-#Global Vars
+#Set your vpc,subnet,security group, lb and cluster name
 aws_cluster_name = "steven"
 
 #EC2 SSH Key Name
@@ -38,30 +29,50 @@ AWS_SSH_KEY_NAME = "******"
 
 #AWS Region
 AWS_DEFAULT_REGION = "******"
+...
+vm_default_user = "centos"
 ```
-
-Use the key pair set before and set instance AMI.
+Set your AMI NAME with wildcard and Account ID
 ```
-$ #replace ciscolive.pem with your praviate key.
-
 $ vi variables.tf 
 ...
-data "aws_ami" "webnode" {
+data "aws_ami" "bastion" {
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["******"]
+    #### Set your AMI name ending with * (Wildcard)####
+    values = ["YOUR AMI NAME*"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
-  owners = ["******"] 
+  #### Set your AWS Account ID below ####
+  owners = ["YOUR ACCOUNT ID"] #DevNet Team
 }
+
+data "aws_ami" "webnode" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    #### Set your AMI name ending with * (Wildcard)####
+    values = ["YOUR AMI NAME*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  #### Set your AWS Account ID below #####
+  owners = ["YOUR ACCOUNT ID"] #DevNet Team
+}
+
 ```
+
+## Run the Program
 
 ### Initialize
 ```
@@ -101,3 +112,6 @@ Do you really want to destroy all resources?
   Enter a value: yes
 ...
 ```
+
+## Do CiscoLive Lab
+https://developer.cisco.com/docs/terraform-workshop/#!getting-started/installation
