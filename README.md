@@ -18,7 +18,7 @@ Default output format [None]:
 
 ### Set Parameters
 
-Set your aws_cluster_name, AWS_DEFAULT_REGION, AWS_SSH_KEY_NAME and vm_default_user based on OS.
+Set your aws_cluster_name, AWS_DEFAULT_REGION, AWS_SSH_KEY_NAME, default_tags and vm_default_user based on OS.
 ```
 $ vi terraform.tfvars 
 #Set your vpc,subnet,security group, lb and cluster name
@@ -30,6 +30,11 @@ AWS_SSH_KEY_NAME = "******"
 #AWS Region
 AWS_DEFAULT_REGION = "******"
 ...
+default_tags = {
+  Env = "devnet-ciscolive"
+  Product = "San Diego"
+}
+
 vm_default_user = "******"
 ```
 Set your AMI NAME with wildcard and Account ID, Make sure the webnode image has enabled web app and listen to 80 port or you can change the port in terraform.tfvars.
