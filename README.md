@@ -72,6 +72,8 @@ data "aws_ami" "webnode" {
 
 ```
 
+### output.tf define the "terraform apply" output
+
 ## Run the Program
 
 ### Initialize
@@ -90,6 +92,10 @@ $ terraform plan
 ```
 
 ### Apply
+This command create resources and generated files:
+hosts ###for ansible use
+terraform.tfstate ### make it safe to track the state
+
 ```
 $ terraform apply
 ...
